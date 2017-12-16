@@ -5,6 +5,7 @@ VIEW Members:
 3. Chitic Andrei
 4. Belciuganu Adrian
 5. Tuiu Costel
+
 View Tasks:
 1. Parse the ontology and detect all the relationships
 2. Expose a public method for returning all the relationships
