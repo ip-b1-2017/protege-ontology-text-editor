@@ -10,7 +10,7 @@ public class InformationProcessor {
     private String path;
     private String extractedText;
     private String cleanedText;
-    private List<List<String>> wordTuples;
+    private List<WordLemaTuple> wordTuples;
 
     // constructor/s
     public InformationProcessor(String path) {
