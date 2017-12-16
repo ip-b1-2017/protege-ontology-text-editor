@@ -1,0 +1,1 @@
+https://protegewiki.stanford.edu/index.php?title=Special:Ask&offset=0&limit=500&q=%5B%5BCategory%3APlugin%5D%5D&p=format%3Dbroadtable%2Fdefault%3DNo-20news-20yet.&po=%3FLast+update%0A&sort=Last+update&order=descending%2Cascending
