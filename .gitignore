@@ -4,6 +4,9 @@
 #We don't care about the project structure on your local machine
 .idea/*
 *.iml
+#Also target files
+view/target/*
+view/idea/*
 
 # Log file
 *.log
@@ -24,4 +27,3 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
->>>>>>> 8c2bdf4b689b3f77c6a9b6e314d512b1bfa309d1
