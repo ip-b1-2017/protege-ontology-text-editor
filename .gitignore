@@ -1,5 +1,8 @@
 # Compiled class file
 *.class
+#We don't care about the project structure on your local machine
+.idea/*
+*.iml
 
 # Log file
 *.log
