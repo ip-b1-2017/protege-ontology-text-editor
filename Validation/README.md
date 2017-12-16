@@ -10,6 +10,8 @@ Team members:
 7. Mazilu Florin
 8. Rîșcanu Andrei
 
+[ASSIGNED TASKS](https://docs.google.com/spreadsheets/d/101vOgeR3xXB2KoanKcJ7FK3xiMBlPWI2iqYFdDP_xeU/edit?usp=sharing)
+
 We are the first ones in the whole process. We will get a path to a local or remote supported document and we will process it so we will transmit to the other modules only the information that might be useful. From the specification we will have to process 3 document types: PDF, DOC(X) and HTML.
 
 After we consulted with the team we brought it down to 5 steps:

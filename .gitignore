@@ -1,2 +1,27 @@
-*/.idea/*
+
+# Compiled class file
+*.class
+#We don't care about the project structure on your local machine
+.idea/*
 *.iml
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+>>>>>>> 8c2bdf4b689b3f77c6a9b6e314d512b1bfa309d1
