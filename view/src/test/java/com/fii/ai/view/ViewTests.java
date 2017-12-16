@@ -10,7 +10,6 @@ public class ViewTests {
     @Test
     public void test1(){
         View view = new View();
-        view.method();
     }
 }
 
