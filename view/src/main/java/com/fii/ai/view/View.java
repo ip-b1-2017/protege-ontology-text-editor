@@ -10,8 +10,17 @@ import java.util.List;
  */
 public class View {
 
+    private List<Word> words;
+
     public List<Relation> getRelations(Word word){
        return null;
     }
 
+    public List<Word> getWords() {
+        return words;
+    }
+
+    public void setWords(List<Word> words) {
+        this.words = words;
+    }
 }
