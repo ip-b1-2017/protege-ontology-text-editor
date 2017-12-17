@@ -11,7 +11,20 @@ import java.io.File;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import uk.ac.manchester.cs.owl.owlapi.OWLObjectPropertyDomainAxiomImpl;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
+
+
 public class ParserTests {
+
+
+
     @Test
     public void parserTest() throws OWLOntologyCreationException {
 
@@ -19,46 +32,34 @@ public class ParserTests {
         // Now load the local copy
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology localPizza = manager.loadOntologyFromOntologyDocument(file);
-
         System.out.println("Loaded ontology: " + localPizza);
 
-        Set<OWLAxiom> axioms = localPizza.getAxioms();
-        System.out.println(axioms);
-        //System.out.println(axioms.getClass());
-        //for(OWLAxiom a : axioms)
-        //    System.out.println(a);
+        System.out.println(localPizza.getFormat());
+        System.out.println(localPizza.components());
+        Stream components = localPizza.components();
+        Object[] list = components.toArray();
 
-        Set<OWLClass> concepts = new LinkedHashSet<OWLClass>();
-        for(OWLClass cls : localPizza.getClassesInSignature()) {
-            concepts.add(cls);
+
+        for(Object obj : list){
+            System.out.println("class " + obj.getClass());
+            System.out.println("toString " + obj.toString());
         }
-        String x = ("Veneziana" + ">").toLowerCase();
-        boolean check = false;
-        for(OWLClass concept : concepts) {
-            if((concept.toString().toLowerCase()).endsWith(x)) {
-                check = true;
-                System.out.println((concept.toString().toLowerCase()));
-                break;
-            }
+        OWLAxiom axiom;
+        Stream<OWLAxiom> axioms =  localPizza.axioms();
+        OWLObjectPropertyDomainAxiomImpl pizza;
+
+        for(Object obj : axioms.toArray()){
+            OWLAxiom axiom1 = (OWLAxiom) obj;
+            System.out.println(axiom1.getClass());
+            System.out.println(Arrays.toString(axiom1.components().toArray()));
+            //   System.out.println("class " + obj.getClass());
+            System.out.println("toString " + obj.toString());
         }
-        System.out.println(check);
 
         OntModel m = ModelFactory.createOntologyModel( OntModelSpec.OWL_MEM );
 
     }
 
-    public boolean checkConcept(String x, OWLOntology ontology) {
-        Set<OWLClass> concepts = new LinkedHashSet<OWLClass>();
-        for(OWLClass cls : ontology.getClassesInSignature()) {
-            concepts.add(cls);
-        }
-        for(OWLClass concept : concepts) {
-            if((concept.toString().toLowerCase()).endsWith(x)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
 
 
