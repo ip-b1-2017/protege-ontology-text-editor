@@ -10,6 +10,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.SimpleConfiguration;
 import org.semanticweb.owlapi.reasoner.structural.StructuralReasoner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +18,7 @@ import java.util.List;
  */
 public class View {
 
+<<<<<<< HEAD
     public List<Relation> getRelations(Word word, OWLOntology ontology){
         List<OntologyRelation> ontologyRelations;
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
@@ -38,6 +40,24 @@ public class View {
         }
 
             return null;
+=======
+    private  ArrayList<Word> words = new ArrayList<Word>();
+
+    public List<Relation> getRelations(Word word){
+       return null;
+>>>>>>> 4b794dae4103823a7cbd88ad3d5931029eb92e84
+    }
+
+    public  ArrayList<Word> getWords() {
+        return words;
+    }
+
+    public  void setWords(ArrayList<Word> words) {
+        this.words = words;
+    }
+
+    public void add(Word word){
+        words.add(word);
     }
 
 }

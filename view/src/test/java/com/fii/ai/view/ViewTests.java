@@ -1,7 +1,10 @@
 package com.fii.ai.view;
 
 import com.fii.ai.view.DTO.Word;
+<<<<<<< HEAD
 import org.apache.jena.ontology.Ontology;
+=======
+>>>>>>> 4b794dae4103823a7cbd88ad3d5931029eb92e84
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -29,6 +32,22 @@ public class ViewTests {
             e.printStackTrace();
         }
         view.getRelations(word, localPizza);
+    }
+
+    @Test
+    public void test2(){
+        Word word1 = new Word("Americana","cea mai buna pizza",10);
+        Word word3 = new Word("America","USA",150);
+        View exemplu = new View();
+        try {
+            exemplu.add(word1);
+            exemplu.add(word3);
+            for(Word i:exemplu.getWords())
+                System.out.println(i.getNormalizeForm() +' ' + i.getTextForm() + ' '+ i.getOffset());
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }
     }
 }
 
