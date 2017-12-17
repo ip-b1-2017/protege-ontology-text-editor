@@ -28,6 +28,12 @@
             <artifactId>org.semanticweb.hermit</artifactId>
             <version>1.4.1.513</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>apache-jena-libs</artifactId>
+            <type>pom</type>
+            <version>3.5.0</version>
+        </dependency>
 
     </dependencies>
 
