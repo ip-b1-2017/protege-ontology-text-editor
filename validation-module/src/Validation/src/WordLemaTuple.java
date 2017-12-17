@@ -14,6 +14,22 @@ public class WordLemaTuple {
         this.lema = null;
     }
 
+    public String getWord() {
+        return word;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public String getLema() {
+        return lema;
+    }
+
+    public void setLema(String lema) {
+        this.lema = lema;
+    }
+
     public WordLemaTuple(String word, String lema) {
         this.word = word;
         this.lema = lema;
