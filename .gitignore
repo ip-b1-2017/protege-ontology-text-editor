@@ -3,6 +3,7 @@
 *.class
 #We don't care about the project structure on your local machine
 .idea/*
+*/idea/*
 *.iml
 #Also target files
 view/target/*
