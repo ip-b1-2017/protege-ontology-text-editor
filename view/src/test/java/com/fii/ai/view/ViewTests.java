@@ -1,10 +1,6 @@
 package com.fii.ai.view;
 
 import com.fii.ai.view.DTO.Word;
-<<<<<<< HEAD
-import org.apache.jena.ontology.Ontology;
-=======
->>>>>>> 4b794dae4103823a7cbd88ad3d5931029eb92e84
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
