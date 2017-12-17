@@ -16,6 +16,7 @@ import static org.semanticweb.owlapi.vocab.OWLFacet.*;
 public class Parser {
     public List<OntologyRelation> doParse(String path) throws OWLOntologyCreationException {
 
+    PArse
         return null;
     }
 }

@@ -1,5 +1,8 @@
 package com.fii.ai.view;
 
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.ontology.OntModelSpec;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -17,5 +20,7 @@ public class ParserTests {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology localPizza = manager.loadOntologyFromOntologyDocument(file);
         System.out.println("Loaded ontology: " + localPizza);
+        OntModel m = ModelFactory.createOntologyModel( OntModelSpec.OWL_MEM );
+
     }
 }
