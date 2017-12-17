@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="fii.ai.b1.edit" />
+        <module name="view" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="fii.ai.b1.edit" target="1.6" />
+      <module name="view" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

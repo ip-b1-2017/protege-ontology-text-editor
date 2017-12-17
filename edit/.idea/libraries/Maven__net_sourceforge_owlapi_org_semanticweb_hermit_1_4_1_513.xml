@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: net.sourceforge.owlapi:org.semanticweb.hermit:1.4.1.513">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/net/sourceforge/owlapi/org.semanticweb.hermit/1.4.1.513/org.semanticweb.hermit-1.4.1.513.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/net/sourceforge/owlapi/org.semanticweb.hermit/1.4.1.513/org.semanticweb.hermit-1.4.1.513-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/net/sourceforge/owlapi/org.semanticweb.hermit/1.4.1.513/org.semanticweb.hermit-1.4.1.513-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
