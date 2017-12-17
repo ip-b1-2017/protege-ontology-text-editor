@@ -18,34 +18,33 @@ import java.util.List;
  */
 public class View {
 
-<<<<<<< HEAD
-    public List<Relation> getRelations(Word word, OWLOntology ontology){
+    public List<Relation> getRelations(Word word, OWLOntology ontology) {
         List<OntologyRelation> ontologyRelations;
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLDataFactory df = manager.getOWLDataFactory();
         OWLReasoner reasoner = new StructuralReasoner(ontology, new SimpleConfiguration(),
                 BufferingMode.NON_BUFFERING);
 
-        for(OWLClass class1 : ontology.getClassesInSignature()) {
+        for (OWLClass class1 : ontology.getClassesInSignature()) {
             for (OWLObjectPropertyExpression prop : ontology.getObjectPropertiesInSignature()) {
                 OWLClassExpression restriction = df.getOWLObjectSomeValuesFrom(prop, df.getOWLThing());
 
                 OWLClassExpression intersection = df.getOWLObjectIntersectionOf(class1, df.getOWLObjectComplementOf(restriction));
                 if (!reasoner.isSatisfiable(intersection))
-                   System.out.println("Instaances of" + class1 + " have " + prop);
-                   // System.out.println(restriction+ " " + df.getOWLObjectComplementOf(restriction));
-                    //System.out.println(restriction +  " "+ df.getOWLObjectComplementOf(restriction).getOperand());
+                    System.out.println("Instaances of" + class1 + " have " + prop);
+                // System.out.println(restriction+ " " + df.getOWLObjectComplementOf(restriction));
+                //System.out.println(restriction +  " "+ df.getOWLObjectComplementOf(restriction).getOperand());
             }
 
         }
 
-            return null;
-=======
+        return null;
+    }
     private  ArrayList<Word> words = new ArrayList<Word>();
 
     public List<Relation> getRelations(Word word){
        return null;
->>>>>>> 4b794dae4103823a7cbd88ad3d5931029eb92e84
+
     }
 
     public  ArrayList<Word> getWords() {
