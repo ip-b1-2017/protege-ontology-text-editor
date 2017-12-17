@@ -18,7 +18,7 @@ public class Api {
         this.resolver = new Resolver(workspace);
     }
 
-    public void addRelation(String word1, String word2, String relation) throws ResolverException {
+    public void addRelation(String word1, String word2, String relation) throws ResolverException, ApiValueException {
         OWLEntity entity1 = resolver.resolveEntity(word1);
         OWLEntity entity2 = resolver.resolveEntity(word2);
 
@@ -40,6 +40,9 @@ public class Api {
                     (OWLIndividual)entity2,
                     (OWLObjectProperty)property
             );
+        }
+        else {
+            throw new ApiValueException("Can only add relations between classes or between individuals.");
         }
     }
 
@@ -64,6 +67,18 @@ public class Api {
                                 property,
                                 ind1,
                                 ind2)));
+    }
+
+    public void addInstanceOf(String word1, String word2) throws ResolverException, ApiValueException {
+        OWLEntity entity1 = resolver.resolveEntity(word1);
+        OWLEntity entity2 = resolver.resolveEntity(word2);
+
+        if (entity1 instanceof OWLIndividual && entity2 instanceof OWLClass){
+            linkOwlIndividualToClass((OWLClass)entity2, (OWLIndividual)entity1);
+        }
+        else{
+            throw new ApiValueException("Can only set individual instance of class.");
+        }
     }
 
     private void linkOwlIndividualToClass(OWLClass owlClass, OWLIndividual owlIndividual){
