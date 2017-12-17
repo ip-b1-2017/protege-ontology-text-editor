@@ -42,6 +42,31 @@
             <artifactId>org.protege.editor.owl</artifactId>
 			<version>4.3.0</version>
         </dependency>
+
+		<!-- https://mvnrepository.com/artifact/junit/junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sourceforge.owlapi</groupId>
+			<artifactId>owlapi-parent</artifactId>
+			<version>5.1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.owlapi</groupId>
+			<artifactId>org.semanticweb.hermit</artifactId>
+			<version>1.4.1.513</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.jena</groupId>
+			<artifactId>apache-jena-libs</artifactId>
+			<type>pom</type>
+			<version>3.5.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -69,6 +94,7 @@
 							org.apache.log4j.*;version="[1.2,2)", 
 							org.protege.editor.core.*;version="4.3",
 							org.protege.editor.owl.*;version="4.3",
+                            org.semanticweb.owlapi.model
 							*
 						</Import-Package>
 						<Include-Resource>plugin.xml, {maven-resources}</Include-Resource>
