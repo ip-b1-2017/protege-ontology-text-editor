@@ -14,9 +14,10 @@ public class LocalDatabase {
     public static List<WordButton> wordButtons  = new ArrayList<>();;
     public static List<Integer> conceptOffset;
     public static List<Relation> relations;
-    public static List<JButton> menuButtons;
     public static Integer currOffset;
     public static Integer secondOffset;
     public static boolean addRelationClicked = false;
+    public static boolean removeRelationClicked = false;
+
 
 }

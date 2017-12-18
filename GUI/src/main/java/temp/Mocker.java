@@ -54,16 +54,15 @@ public class Mocker {
             for (int j=0;j < words.size() ; j ++){
                 if ((new Random().nextInt(words.size()))%5 == 0 && i!=j){
                     relations.add(new Relation(i,j));
-                    relations.add(new Relation(j,i));
                 }
             }
         }
 
     }
 
-    public Relation hasRelation(Integer offset1){
+    public Relation hasRelation(Integer offset1, Integer offset2){
         for ( Relation i : relations  ) {
-            if(i.offset1 == offset1){
+            if(i.offset1 == offset1 && i.offset2 == offset2){
                 return  i;
             }
         }

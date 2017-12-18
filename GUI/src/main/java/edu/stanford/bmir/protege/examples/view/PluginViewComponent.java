@@ -54,33 +54,53 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
 
         for (int i=0; i<mocker.words.size();i++){
             LocalDatabase.wordButtons.add(new WordButton(mocker.words.get(i).word));
+
+
             LocalDatabase.wordButtons.get(i).addActionListener(e -> {
-                WordButton currButt = LocalDatabase.wordButtons.get(LocalDatabase.currOffset);
-                textPane.setText(currButt.getText());
                 if (LocalDatabase.addRelationClicked){
                     LocalDatabase.secondOffset = LocalDatabase.wordButtons.indexOf(e.getSource());
                     String input = JOptionPane.showInputDialog("Relation name: ");
                     LocalDatabase.relations.add(new Relation(LocalDatabase.currOffset,LocalDatabase.secondOffset, input));
                     LocalDatabase.addRelationClicked = false;
                 }
-                LocalDatabase.currOffset = LocalDatabase.wordButtons.indexOf(e.getSource());
-                for (int j = 0; j<LocalDatabase.wordButtons.size();j++){
-                    WordButton b = LocalDatabase.wordButtons.get(j);
-                    b.setOpaque(false);
-                    b.setContentAreaFilled(false);
-                    b.setBorderPainted(false);
-                    Relation rel = mocker.hasRelation(LocalDatabase.currOffset);
-                    if(rel != null){
-                        currButt.setBackground(Color.GREEN);
-                        currButt.setOpaque(true);
-                        LocalDatabase.wordButtons.get(rel.offset2).setBackground(Color.GREEN);
-                        LocalDatabase.wordButtons.get(rel.offset2).setOpaque(true);
-                        textPane.append(currButt.getText() + " " + rel.relation + " " + LocalDatabase.wordButtons.get(rel.offset2).getText() + ".\n");
+
+                if (LocalDatabase.removeRelationClicked){
+                    LocalDatabase.secondOffset = LocalDatabase.wordButtons.indexOf(e.getSource());
+                    int input = JOptionPane.showConfirmDialog(
+                            gridPane,
+                            "You sure you want to delete relation between *" + ((JButton)e.getSource()).getText()  + "*  and  *" + LocalDatabase.wordButtons.get(LocalDatabase.currOffset).getText() + "* ?",
+                            "Confirm action",
+                            JOptionPane.YES_NO_OPTION);
+                    if (input == 0 ) {
+                        LocalDatabase.relations.remove(mocker.hasRelation(LocalDatabase.currOffset,LocalDatabase.secondOffset));
+                        LocalDatabase.wordButtons.get(LocalDatabase.secondOffset).setOpaque(false);
+                    }
+                    LocalDatabase.removeRelationClicked = false;
+                }
+                else {
+                    LocalDatabase.currOffset = LocalDatabase.wordButtons.indexOf(e.getSource());
+                    WordButton currButt = LocalDatabase.wordButtons.get(LocalDatabase.currOffset);
+                    textPane.setText(currButt.getText());
+                    for (int j = 0; j < LocalDatabase.wordButtons.size(); j++) {
+                        WordButton b = LocalDatabase.wordButtons.get(j);
+                        b.setOpaque(false);
+                        b.setContentAreaFilled(false);
+                        b.setBorderPainted(false);
+                        Relation rel = mocker.hasRelation(LocalDatabase.currOffset, j);
+                        if (rel != null) {
+                            currButt.setBackground(Color.GREEN);
+                            currButt.setOpaque(true);
+                            LocalDatabase.wordButtons.get(rel.offset2).setBackground(Color.GREEN);
+                            LocalDatabase.wordButtons.get(rel.offset2).setOpaque(true);
+                            textPane.append(currButt.getText() + " " + rel.relation + " " + LocalDatabase.wordButtons.get(rel.offset2).getText() + ".\n");
+                        }
                     }
                 }
-                currButt.getRootPane().validate();
-                currButt.getRootPane().repaint();
+                flowPane.validate();
+                flowPane.repaint();
             });
+
+
             flowPane.add(LocalDatabase.wordButtons.get(i));
         }
 
@@ -98,55 +118,33 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
     private void initialiseMenuButtons(JPanel gridPane, JTextArea textArea) {
         JButton addRelation = new JButton("Add relation");
         addRelation.setBackground(Color.GREEN);
-        addRelation.addActionListener( e -> {
-            LocalDatabase.addRelationClicked = true;
-        });
+        addRelation.addActionListener( e -> LocalDatabase.addRelationClicked = true);
+
+
+        JButton removeRelation = new JButton("Remove relation");
+        removeRelation.setBackground(Color.GREEN);
+        removeRelation.addActionListener(e -> LocalDatabase.removeRelationClicked = true);
 
 
 
-
-        JButton markConcept = new JButton("Mark as concept");
-        markConcept.setBackground(Color.RED);
-        markConcept.addActionListener(e -> {
+        JButton conceptMarking = new JButton("Unmark/Mark as concept");
+        conceptMarking.setBackground(Color.RED);
+        conceptMarking.addActionListener(e -> {
             WordButton  currBut = LocalDatabase.wordButtons.get(LocalDatabase.currOffset);
             if (!LocalDatabase.conceptOffset.contains(LocalDatabase.currOffset)){
+                textArea.setText(currBut.getText() + " was marked as concept.\n");
                 currBut.setBackground(Color.RED);
                 LocalDatabase.conceptOffset.add(LocalDatabase.currOffset);
+
             }
-            else {
-                textArea.setText("Target already a concept!");
-            }
-            currBut.getRootPane().validate();
-            currBut.getRootPane().repaint();
-        });
-
-
-
-        JButton unmarkConcept = new JButton("Unmark as concept");
-        unmarkConcept.setBackground(Color.RED);
-        unmarkConcept.addActionListener(e -> {
-            WordButton currBut = LocalDatabase.wordButtons.get(LocalDatabase.currOffset);
             if (LocalDatabase.conceptOffset.contains(LocalDatabase.currOffset)){
+                textArea.setText(currBut.getText() + " is a concept no more.\n");
                 currBut.setOpaque(false);
                 LocalDatabase.conceptOffset.remove(LocalDatabase.currOffset);
             }
-            else {
-                textArea.setText("Target not a concept!");
-            }
             currBut.getRootPane().validate();
             currBut.getRootPane().repaint();
-
         });
-
-
-
-        JButton load = new JButton("Load File");
-        load.setBackground(Color.CYAN);
-
-
-
-        JButton save = new JButton("Save File");
-        save.setBackground(Color.CYAN);
 
 
 
@@ -171,10 +169,18 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
         });
 
 
+        JButton load = new JButton("Load File");
+        load.setBackground(Color.CYAN);
+
+
+
+        JButton save = new JButton("Save File");
+        save.setBackground(Color.CYAN);
+
 
         gridPane.add(addRelation);
-        gridPane.add(markConcept);
-        gridPane.add(unmarkConcept);
+        gridPane.add(removeRelation);
+        gridPane.add(conceptMarking);
         gridPane.add(load);
         gridPane.add(save);
         gridPane.add(seeConcepts);
