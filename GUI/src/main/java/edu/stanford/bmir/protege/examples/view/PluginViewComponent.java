@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import temp.Mocker;
 import temp.Relation;
 import utilities.LocalDatabase;
+import utilities.OWLApi;
 import utilities.WordButton;
 import utilities.WrapLayout;
 
@@ -23,6 +24,7 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
 
     @Override
     protected void initialiseOWLView() throws Exception {
+        OWLApi.initializeEditApi(this.getOWLWorkspace());
         setLayout(new BorderLayout());
 
         JPanel flowPane = new JPanel();
@@ -53,7 +55,7 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
         Mocker mocker = new Mocker();
 
         for (int i=0; i<mocker.words.size();i++){
-            LocalDatabase.wordButtons.add(new WordButton(mocker.words.get(i).word));
+            LocalDatabase.wordButtons.add(new WordButton(mocker.words.get(i).getWord()));
 
 
             LocalDatabase.wordButtons.get(i).addActionListener(e -> {
