@@ -1,9 +1,8 @@
 package temp;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import utilities.LocalDatabase;
+
+import java.util.*;
 
 /**
  * Created by giosa on 18-Dec-17.
@@ -58,16 +57,20 @@ public class Mocker {
             }
         }
 
+        LocalDatabase.conceptOffset = conceptOffset;
+        LocalDatabase.relations = relations;
+
     }
 
     public Relation hasRelation(Integer offset1, Integer offset2){
-        for ( Relation i : relations  ) {
-            if(i.offset1 == offset1 && i.offset2 == offset2){
+        for ( Relation i : LocalDatabase.relations  ) {
+            if(Objects.equals(i.offset1, offset1) && Objects.equals(i.offset2, offset2)){
                 return  i;
             }
         }
         return null;
     }
+
 
 
 }
