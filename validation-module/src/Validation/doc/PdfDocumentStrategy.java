@@ -32,13 +32,14 @@ public class PdfDocumentStrategy implements IDocumentStrategy {
                 System.out.println("Document doesn't exist");
             }
 
-            return text.replaceAll("[^A-Za-z0-9., ]+", "");
+            return text.replaceAll("[^A-Za-z0-9.,\p{L}\s]+", "");
         }
     }
-
+/*
      public static void main(String[] args) {
         DocumentStrategyMapping documentMapping = new DocumentStrategyMapping();
         String text= documentMapping.process(DocumentEnum.PDF, "E:/pdf/1.hic procese expansive hidrocefalie 2012_corr.pdf");
         System.out.println(text);
     }
 }
+*/
