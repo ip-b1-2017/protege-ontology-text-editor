@@ -1,6 +1,8 @@
 package edu.stanford.bmir.protege.examples.view;
 
 import java.awt.*;
+import java.io.File;
+
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +13,7 @@ import utilities.WordButton;
 import utilities.WrapLayout;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class PluginViewComponent extends AbstractOWLViewComponent {
 
@@ -171,7 +174,18 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
 
         JButton load = new JButton("Load File");
         load.setBackground(Color.CYAN);
-
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF and TXT texts", "pdf", "txt");
+        fileChooser.addChoosableFileFilter(filter);
+        load.addActionListener(e->{
+            int result = fileChooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+            }
+        });
 
 
         JButton save = new JButton("Save File");
