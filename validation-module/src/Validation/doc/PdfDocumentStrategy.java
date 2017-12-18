@@ -16,10 +16,15 @@ public class PdfDocumentStrategy implements IDocumentStrategy {
         PDFTextStripper pdfStripper = new PDFTextStripper();
 
         String text = pdfStripper.getText(document);
-        System.out.println(text);
 
         document.close();
 
         return text;
+    }
+    
+     public static void main(String[] args) {
+        DocumentStrategyMapping documentMapping = new DocumentStrategyMapping();
+        String text= documentMapping.process(DocumentEnum.PDF, "D:/randompdf.pdf");
+        System.out.println(text);
     }
 }
