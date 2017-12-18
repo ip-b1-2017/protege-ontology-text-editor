@@ -5,6 +5,7 @@ VIEW Members:
 3. Chitic Andrei
 4. Belciuganu Adrian
 5. Tuiu Costel
+6. Chicos Raluca-Stefana
 
 View Tasks:
 1. Parse the ontology and detect all the relationships
