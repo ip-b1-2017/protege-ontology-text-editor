@@ -10,7 +10,7 @@ public class PdfDocumentStrategy implements IDocumentStrategy {
     @Override
     public String clean(String path) {
         // TODO implement processing of PDF files and return the resulted string
-        //Loading an existing document
+
         PDDocument document = null;
         String text = null;
         try {
@@ -18,29 +18,28 @@ public class PdfDocumentStrategy implements IDocumentStrategy {
             File file = new File(path);
             document = PDDocument.load(file);
 
-            //Instantiate PDFTextStripper class
             PDFTextStripper pdfStripper = new PDFTextStripper();
 
-            //Retrieving text from PDF document
             text = pdfStripper.getText(document);
         } catch (IOException e) {
-            //do smth
+            System.out.println("Retrieving text from PDF doesn't work");
         } finally {
             try {
-                if (document != null)
-                    //Closing the document
+                if (document != null) {
                     document.close();
+                }
             } catch (IOException e) {
-                //do smth
+                System.out.println("Document doesn't exist");
             }
 
-            return text;
+            return text.replaceAll("[^A-Za-z0-9.,\p{L}\s]+", "");
         }
     }
-    
+/*
      public static void main(String[] args) {
         DocumentStrategyMapping documentMapping = new DocumentStrategyMapping();
-        String text= documentMapping.process(DocumentEnum.PDF, "D:/randompdf.pdf");
+        String text= documentMapping.process(DocumentEnum.PDF, "E:/pdf/1.hic procese expansive hidrocefalie 2012_corr.pdf");
         System.out.println(text);
     }
 }
+*/
