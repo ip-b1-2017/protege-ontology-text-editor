@@ -17,7 +17,7 @@ public class ViewTests {
     @Test
     public void test1(){
         View view = new View();
-        Word word =new Word("Veneziana","sasa",1);
+        Word word = new Word("Veneziana","sasa",1);
         File file = new File("tmp/pizza.owl");
         // Now load the local copy
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
