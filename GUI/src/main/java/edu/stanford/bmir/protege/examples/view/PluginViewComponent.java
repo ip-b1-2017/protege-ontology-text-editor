@@ -19,13 +19,13 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
     private static final Logger log = LoggerFactory.getLogger(PluginViewComponent.class);
 
     Filter filter = new Filter();
+    JPanel flowPane = new JPanel();
 
     @Override
     protected void initialiseOWLView() throws Exception {
         OWLApi.initializeEditApi(this.getOWLWorkspace());
         setLayout(new BorderLayout());
 
-        JPanel flowPane = new JPanel();
         flowPane.setBackground(Color.white);
         flowPane.setLayout(new WrapLayout(FlowLayout.LEADING));
         flowPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -131,9 +131,7 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
                 currBut.setOpaque(false);
                 filter.removeConcept();
             }
-            // filter.refreshPane(flowPane); for flowPaneGLOBLAR
-            currBut.getRootPane().validate();
-            currBut.getRootPane().repaint();
+            filter.refreshPane(flowPane);
         });
 
 
@@ -154,9 +152,7 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
                     b.setOpaque(true);
                 }
             }
-            // filter.refreshPane(flowPane); for flowPaneGLOBLAR
-            b.getRootPane().validate();
-            b.getRootPane().repaint();
+            filter.refreshPane(flowPane);
         });
 
 
