@@ -1,5 +1,10 @@
 package Validation.doc;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class Document {
     private String path;
     private DocumentStrategyMapping doc;
@@ -9,12 +14,24 @@ public class Document {
         doc = new DocumentStrategyMapping();
         this.path = path;
 
-        // TODO consider for now that the document is local and verify it's existence
-
-        // TODO check what type of document is and make the assignation
-        type = DocumentEnum.PDF;
-        type = DocumentEnum.HTML;
-        type = DocumentEnum.DOCX;
+        Path file = Paths.get(path);
+        if (Files.exists(file)) {
+            File filePath = new File(this.path);
+            String fileName = filePath.getName();
+            if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
+                switch (fileName.substring(fileName.lastIndexOf(".") + 1).toUpperCase()) {
+                    case "PDF":
+                        type = DocumentEnum.PDF;
+                        break;
+                    case "HTML":
+                        type = DocumentEnum.HTML;
+                        break;
+                    case "DOCX":
+                        type = DocumentEnum.DOCX;
+                        break;
+                }
+            }
+        }
     }
 
     public String getText() {
