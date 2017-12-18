@@ -18,17 +18,16 @@ public class PdfDocumentStrategy implements IDocumentStrategy {
             File file = new File(path);
             document = PDDocument.load(file);
 
-            //Instantiate PDFTextStripper class
             PDFTextStripper pdfStripper = new PDFTextStripper();
 
-            //Retrieving text from PDF document
             text = pdfStripper.getText(document);
         } catch (IOException e) {
             System.out.println("Retrieving text from PDF doesn't work");
         } finally {
             try {
-                if (document != null)
+                if (document != null) {
                     document.close();
+                }
             } catch (IOException e) {
                 System.out.println("Document doesn't exist");
             }
@@ -36,7 +35,7 @@ public class PdfDocumentStrategy implements IDocumentStrategy {
             return text.replaceAll("[^A-Za-z0-9., ]+", "");
         }
     }
-    
+
      public static void main(String[] args) {
         DocumentStrategyMapping documentMapping = new DocumentStrategyMapping();
         String text= documentMapping.process(DocumentEnum.PDF, "E:/pdf/1.hic procese expansive hidrocefalie 2012_corr.pdf");
