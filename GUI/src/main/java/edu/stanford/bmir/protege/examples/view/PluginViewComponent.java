@@ -9,10 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import temp.Mocker;
 import temp.Relation;
-import utilities.LocalDatabase;
-import utilities.OWLApi;
-import utilities.WordButton;
-import utilities.WrapLayout;
+import utilities.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -21,13 +18,14 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
 
     private static final Logger log = LoggerFactory.getLogger(PluginViewComponent.class);
 
+    Filter filter = new Filter();
+    JPanel flowPane = new JPanel();
 
     @Override
     protected void initialiseOWLView() throws Exception {
         OWLApi.initializeEditApi(this.getOWLWorkspace());
         setLayout(new BorderLayout());
 
-        JPanel flowPane = new JPanel();
         flowPane.setBackground(Color.white);
         flowPane.setLayout(new WrapLayout(FlowLayout.LEADING));
         flowPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -59,42 +57,31 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
 
 
             LocalDatabase.wordButtons.get(i).addActionListener(e -> {
-                if (LocalDatabase.addRelationClicked && LocalDatabase.currOffset!=-1){
-                    LocalDatabase.secondOffset = LocalDatabase.wordButtons.indexOf(e.getSource());
-                    String input = JOptionPane.showInputDialog("What relation between *" + LocalDatabase.wordButtons.get(LocalDatabase.currOffset).getText()  + "*  and  *" +  ((JButton)e.getSource()).getText() + "* \nwould you like to add?");
-                    LocalDatabase.relations.add(new Relation(LocalDatabase.currOffset,LocalDatabase.secondOffset, input));
-                    LocalDatabase.addRelationClicked = false;
-                }
-                else
-                if (LocalDatabase.removeRelationClicked && LocalDatabase.currOffset!=-1) {
-                    LocalDatabase.secondOffset = LocalDatabase.wordButtons.indexOf(e.getSource());
+                if (filter.canAddRelation()) {
+                    filter.setSecondOffset(e);
+                    String input = JOptionPane.showInputDialog("What relation between *" + LocalDatabase.wordButtons.get(LocalDatabase.currOffset).getText() + "*  and  *" + ((JButton) e.getSource()).getText() + "* \nwould you like to add?");
+                    filter.addRelation(input);
+                } else if (filter.canRemoveRelation()) {
+                    filter.setSecondOffset(e);
                     int input = JOptionPane.showConfirmDialog(
                             gridPane,
-                            "You sure you want to delete relation between *" + ((JButton)e.getSource()).getText()  + "*  and  *" + LocalDatabase.wordButtons.get(LocalDatabase.currOffset).getText() + "* ?",
+                            "You sure you want to delete relation between *" + ((JButton) e.getSource()).getText() + "*  and  *" + LocalDatabase.wordButtons.get(LocalDatabase.currOffset).getText() + "* ?",
                             "Confirm action",
                             JOptionPane.YES_NO_OPTION);
-                    if (input == 0 ) {
-                        LocalDatabase.relations.remove(mocker.hasRelation(LocalDatabase.currOffset,LocalDatabase.secondOffset));
-                        LocalDatabase.wordButtons.get(LocalDatabase.secondOffset).setOpaque(false);
+                    if (input == 0) {
+                        filter.removeRelation(mocker);
                     }
                     LocalDatabase.removeRelationClicked = false;
-                }
-                else {
-                    LocalDatabase.currOffset = LocalDatabase.wordButtons.indexOf(e.getSource());
-                    JButton currButt = LocalDatabase.wordButtons.get(LocalDatabase.currOffset);
+                } else {
+                    filter.setCurrOffset(e);
+                    JButton currButt = filter.getCurrButton();
                     textPane.setText(currButt.getText());
-                    for (int j = 0; j < mocker.words.size(); j++) {
-                        WordButton b = LocalDatabase.wordButtons.get(j);
-                        b.setOpaque(false);
-                    }
+                    filter.clearWords();
                     currButt.setBackground(Color.GREEN);
                     currButt.setOpaque(true);
-                    flowPane.validate();
-                    flowPane.repaint();
+                    filter.refreshPane(flowPane);
                     for (int j = 0; j < LocalDatabase.wordButtons.size(); j++) {
                         Relation rel = mocker.hasRelation(LocalDatabase.currOffset, j);
-
-                        System.out.println(j);
                         if (rel != null) {
                             LocalDatabase.wordButtons.get(j).setBackground(Color.GREEN);
                             LocalDatabase.wordButtons.get(j).setOpaque(true);
@@ -102,8 +89,7 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
                         }
                     }
                 }
-                flowPane.validate();
-                flowPane.repaint();
+                filter.refreshPane(flowPane);
             });
             flowPane.add(LocalDatabase.wordButtons.get(i));
         }
@@ -134,21 +120,18 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
         JButton conceptMarking = new JButton("Unmark/Mark as concept");
         conceptMarking.setBackground(Color.RED);
         conceptMarking.addActionListener(e -> {
-            WordButton  currBut = LocalDatabase.wordButtons.get(LocalDatabase.currOffset);
+            WordButton currBut = LocalDatabase.wordButtons.get(LocalDatabase.currOffset);
             if (!LocalDatabase.conceptOffset.contains(LocalDatabase.currOffset)) {
                 textArea.setText(currBut.getText() + " was marked as concept.\n");
                 currBut.setBackground(Color.RED);
-                LocalDatabase.conceptOffset.add(LocalDatabase.currOffset);
+                filter.addConcept();
 
-            }
-            else
-            if (LocalDatabase.conceptOffset.contains(LocalDatabase.currOffset)){
+            } else if (LocalDatabase.conceptOffset.contains(LocalDatabase.currOffset)) {
                 textArea.setText(currBut.getText() + " is a concept no more.\n");
                 currBut.setOpaque(false);
-                LocalDatabase.conceptOffset.remove(LocalDatabase.currOffset);
+                filter.removeConcept();
             }
-            currBut.getRootPane().validate();
-            currBut.getRootPane().repaint();
+            filter.refreshPane(flowPane);
         });
 
 
@@ -158,19 +141,18 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
         seeConcepts.addActionListener(e -> {
             textArea.setText("");
             WordButton b = LocalDatabase.wordButtons.get(0);
-            for (int i=0;i<LocalDatabase.wordButtons.size();i++){
+            for (int i = 0; i < LocalDatabase.wordButtons.size(); i++) {
                 b = LocalDatabase.wordButtons.get(i);
                 b.setOpaque(false);
                 b.setContentAreaFilled(false);
                 b.setBorderPainted(false);
-                if (LocalDatabase.conceptOffset.contains(i)){
+                if (LocalDatabase.conceptOffset.contains(i)) {
                     textArea.append(b.getText() + " is a Concept" + '\n');
                     b.setBackground(Color.RED);
                     b.setOpaque(true);
                 }
             }
-            b.getRootPane().validate();
-            b.getRootPane().repaint();
+            filter.refreshPane(flowPane);
         });
 
 
