@@ -2,6 +2,7 @@ package edu.stanford.bmir.protege.examples.view;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FileWriter;
 
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
@@ -190,6 +191,20 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
         JButton save = new JButton("Save File");
         save.setBackground(Color.CYAN);
 
+        String sb = "TEST CONTENT";
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        save.addActionListener(e->{
+            int retrival = chooser.showSaveDialog(null);
+            if (retrival == JFileChooser.APPROVE_OPTION) {
+                try(FileWriter fw = new FileWriter(chooser.getSelectedFile()+".txt")) {
+                    fw.write(sb.toString());
+                    fw.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
 
         gridPane.add(addRelation);
         gridPane.add(conceptMarking);
