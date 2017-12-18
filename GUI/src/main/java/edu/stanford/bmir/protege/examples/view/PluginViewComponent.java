@@ -57,6 +57,7 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
 
 
             LocalDatabase.wordButtons.get(i).addActionListener(e -> {
+                try{
                 if (filter.canAddRelation()) {
                     filter.setSecondOffset(e);
                     String input = JOptionPane.showInputDialog("What relation between *" + LocalDatabase.wordButtons.get(LocalDatabase.currOffset).getText() + "*  and  *" + ((JButton) e.getSource()).getText() + "* \nwould you like to add?");
@@ -90,6 +91,13 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
                     }
                 }
                 filter.refreshPane(flowPane);
+                }
+                catch (Exception ex){
+                    JOptionPane.showMessageDialog(flowPane,
+                            ex.getMessage(),
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             });
             flowPane.add(LocalDatabase.wordButtons.get(i));
         }
