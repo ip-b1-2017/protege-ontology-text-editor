@@ -56,14 +56,14 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
 
 
             LocalDatabase.wordButtons.get(i).addActionListener(e -> {
-                if (LocalDatabase.addRelationClicked){
+                if (LocalDatabase.addRelationClicked && LocalDatabase.currOffset!=-1){
                     LocalDatabase.secondOffset = LocalDatabase.wordButtons.indexOf(e.getSource());
-                    String input = JOptionPane.showInputDialog("Relation name: ");
+                    String input = JOptionPane.showInputDialog("What relation between *" + LocalDatabase.wordButtons.get(LocalDatabase.currOffset).getText()  + "*  and  *" +  ((JButton)e.getSource()).getText() + "* \nwould you like to add?");
                     LocalDatabase.relations.add(new Relation(LocalDatabase.currOffset,LocalDatabase.secondOffset, input));
                     LocalDatabase.addRelationClicked = false;
                 }
                 else
-                if (LocalDatabase.removeRelationClicked){
+                if (LocalDatabase.removeRelationClicked && LocalDatabase.currOffset!=-1){
                     LocalDatabase.secondOffset = LocalDatabase.wordButtons.indexOf(e.getSource());
                     int input = JOptionPane.showConfirmDialog(
                             flowPane,
