@@ -25,16 +25,21 @@ public class View {
         OWLReasoner reasoner = new StructuralReasoner(ontology, new SimpleConfiguration(),
                 BufferingMode.NON_BUFFERING);
 
-        for (OWLClass class1 : ontology.getClassesInSignature()) {
-            for (OWLObjectPropertyExpression prop : ontology.getObjectPropertiesInSignature()) {
-                OWLClassExpression restriction = df.getOWLObjectSomeValuesFrom(prop, df.getOWLThing());
+        String localWord = word.getNormalizeForm().toLowerCase() + ">";
 
-                OWLClassExpression intersection = df.getOWLObjectIntersectionOf(class1, df.getOWLObjectComplementOf(restriction));
-                if (!reasoner.isSatisfiable(intersection))
-                    System.out.println("Instaances of" + class1 + " have " + prop);
-                // System.out.println(restriction+ " " + df.getOWLObjectComplementOf(restriction));
-                //System.out.println(restriction +  " "+ df.getOWLObjectComplementOf(restriction).getOperand());
-            }
+        for (OWLClass class1 : ontology.getClassesInSignature()) {
+            //System.out.println(class1.getClass());
+            //String classString = class1.toString().toLowerCase().endsWith(localWord);
+            if(class1.toString().toLowerCase().endsWith(localWord))
+                for (OWLObjectPropertyExpression prop : ontology.getObjectPropertiesInSignature()) {
+                    OWLClassExpression restriction = df.getOWLObjectSomeValuesFrom(prop, df.getOWLThing());
+
+                    OWLClassExpression intersection = df.getOWLObjectIntersectionOf(class1, df.getOWLObjectComplementOf(restriction));
+                    if (!reasoner.isSatisfiable(intersection))
+                        System.out.println("Instaances of" + class1 + " have " + prop);
+                    // System.out.println(restriction+ " " + df.getOWLObjectComplementOf(restriction));
+                    //System.out.println(restriction +  " "+ df.getOWLObjectComplementOf(restriction).getOperand());
+                }
 
         }
 
