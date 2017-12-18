@@ -192,11 +192,11 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
 
 
         gridPane.add(addRelation);
-        gridPane.add(removeRelation);
         gridPane.add(conceptMarking);
         gridPane.add(load);
-        gridPane.add(save);
+        gridPane.add(removeRelation);
         gridPane.add(seeConcepts);
+        gridPane.add(save);
     }
 
 
