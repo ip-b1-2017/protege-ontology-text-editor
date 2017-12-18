@@ -194,6 +194,9 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
         String sb = "TEST CONTENT";
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        chooser.setAcceptAllFileFilterUsed(false);
+        FileNameExtensionFilter filterSave = new FileNameExtensionFilter("Text(*.txt)",  "txt");
+        chooser.addChoosableFileFilter(filterSave);
         save.addActionListener(e->{
             int retrival = chooser.showSaveDialog(null);
             if (retrival == JFileChooser.APPROVE_OPTION) {
