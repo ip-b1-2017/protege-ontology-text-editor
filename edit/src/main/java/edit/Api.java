@@ -4,9 +4,11 @@ import org.apache.jena.vocabulary.OWL;
 import org.protege.editor.owl.model.OWLWorkspace;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.util.OWLEntityRemover;
 import util.Resolver;
 import util.ResolverException;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Api {
@@ -46,6 +48,25 @@ public class Api {
         }
     }
 
+    public void removeConcept(String word) throws ResolverException, ApiValueException {
+        OWLEntity entity = resolver.resolveEntity(word);
+
+        if(!(entity instanceof OWLClass)){
+            throw new ApiValueException(word + " is not a concept.");
+        }
+
+        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+        OWLOntology ontology = workspace.getOWLModelManager().getActiveOntology();
+        Set<OWLOntology> onts = new HashSet<>();
+        onts.add(ontology);
+        OWLEntityRemover remover = new OWLEntityRemover(manager, onts);
+
+        entity.accept(remover);
+
+        manager.applyChanges(remover.getChanges());
+        remover.reset();
+    }
+
     private void linkOwlClasses(OWLClass class1, OWLClass class2, OWLObjectProperty property) {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLDataFactory factory = manager.getOWLDataFactory();
@@ -80,6 +101,7 @@ public class Api {
             throw new ApiValueException("Can only set individual instance of class.");
         }
     }
+
 
     private void linkOwlIndividualToClass(OWLClass owlClass, OWLIndividual owlIndividual){
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
