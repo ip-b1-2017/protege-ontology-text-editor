@@ -64,10 +64,10 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
                     LocalDatabase.addRelationClicked = false;
                 }
                 else
-                if (LocalDatabase.removeRelationClicked && LocalDatabase.currOffset!=-1){
+                if (LocalDatabase.removeRelationClicked && LocalDatabase.currOffset!=-1) {
                     LocalDatabase.secondOffset = LocalDatabase.wordButtons.indexOf(e.getSource());
                     int input = JOptionPane.showConfirmDialog(
-                            flowPane,
+                            gridPane,
                             "You sure you want to delete relation between *" + ((JButton)e.getSource()).getText()  + "*  and  *" + LocalDatabase.wordButtons.get(LocalDatabase.currOffset).getText() + "* ?",
                             "Confirm action",
                             JOptionPane.YES_NO_OPTION);
@@ -103,7 +103,6 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
                 flowPane.validate();
                 flowPane.repaint();
             });
-
             flowPane.add(LocalDatabase.wordButtons.get(i));
         }
 
@@ -134,12 +133,13 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
         conceptMarking.setBackground(Color.RED);
         conceptMarking.addActionListener(e -> {
             WordButton  currBut = LocalDatabase.wordButtons.get(LocalDatabase.currOffset);
-            if (!LocalDatabase.conceptOffset.contains(LocalDatabase.currOffset)){
+            if (!LocalDatabase.conceptOffset.contains(LocalDatabase.currOffset)) {
                 textArea.setText(currBut.getText() + " was marked as concept.\n");
                 currBut.setBackground(Color.RED);
                 LocalDatabase.conceptOffset.add(LocalDatabase.currOffset);
 
             }
+            else
             if (LocalDatabase.conceptOffset.contains(LocalDatabase.currOffset)){
                 textArea.setText(currBut.getText() + " is a concept no more.\n");
                 currBut.setOpaque(false);
