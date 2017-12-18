@@ -1,12 +1,16 @@
 package utilities;
 
-import edu.stanford.bmir.protege.examples.view.PluginViewComponent;
+import com.fii.ai.view.DTO.Word;
+import com.fii.ai.view.Parser;
+import com.fii.ai.view.ViewAPI;
 import org.protege.editor.owl.model.OWLWorkspace;
+import org.semanticweb.owlapi.model.OWLOntology;
 import temp.LemaWord;
 import temp.Relation;
 import edit.*;
 import util.ResolverException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,31 +19,48 @@ import java.util.List;
 public class OWLApi {
 
     private static Api editApi;
+    private static OWLOntology ontology;
     private static List<LemaWord> text = null;
+    private static List<Word> viewText = new ArrayList<>();
 
     public static void initializeEditApi(OWLWorkspace workspace){
         editApi = new Api(workspace);
     }
+
+    public static void setOntology(OWLOntology currentOnto){
+        ontology = currentOnto;
+    }
+
     public static void setText(List<LemaWord> t){
+        if(text != null)
+            return;
         text = t;
+        for (int it = 0; it < text.size(); ++it){
+            viewText.add(new Word(
+                    text.get(it).getLema(),
+                    text.get(it).getWord(),
+                    it));
+        }
     }
     public static List<Relation> getRelationsOfWord(Integer wordOffset){
         assert text != null : "Text must be not null";
-        List<Relation> wordRelations = null;
-        /*
-            TODO call View api for viewing relations of word positioned in text at index wordOffset
-         */
+        List<Relation> wordRelations = new ArrayList<>();
+        List<com.fii.ai.view.DTO.Relation> ret =
+                ViewAPI.getRelations(
+                        viewText.get(wordOffset),
+                        ontology,
+                        (ArrayList<Word>) viewText);
+        for (com.fii.ai.view.DTO.Relation it : ret){
+            wordRelations.add(new Relation(it.getOffset1(), it.getOffset2(), it.getRelationName()));
+        }
         return wordRelations;
     }
 
     public static boolean isConcept(Integer wordOffset){
         assert text != null : "Text must be not null";
         String lemmaWord = text.get(wordOffset).getLema();
-        boolean status = false;
-        /*
-            TODO call View api for checking if lemmaWord is a concept or not
-         */
-        return status;
+        Parser p = new Parser();
+        return p.checkConcept(lemmaWord, ontology);
     }
 
     public static void addRelation(Integer wordOffset1,
