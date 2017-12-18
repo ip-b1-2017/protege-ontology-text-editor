@@ -66,7 +66,7 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
                 if (LocalDatabase.removeRelationClicked){
                     LocalDatabase.secondOffset = LocalDatabase.wordButtons.indexOf(e.getSource());
                     int input = JOptionPane.showConfirmDialog(
-                            gridPane,
+                            flowPane,
                             "You sure you want to delete relation between *" + ((JButton)e.getSource()).getText()  + "*  and  *" + LocalDatabase.wordButtons.get(LocalDatabase.currOffset).getText() + "* ?",
                             "Confirm action",
                             JOptionPane.YES_NO_OPTION);
