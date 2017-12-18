@@ -5,20 +5,17 @@ package com.fii.ai.view.DTO;
  */
 public class Relation {
     private String relationName;
-    private int offset;
-    private boolean type;
+    private int offset1;
+    private int offset2;
 
-    public Relation(String relationName, int offset, boolean type) {
-        this.relationName = relationName;
-        this.offset = offset;
-        this.type = type;
+    public Relation() {
     }
 
-    public  void Relation(Relation relation){
-        this.relationName=relation.relationName;
-        this.offset=relation.offset;
-        this.type=relation.type;
+    public Relation(String relationName, int offset1, int offset2) {
 
+        this.relationName = relationName;
+        this.offset1 = offset1;
+        this.offset2 = offset2;
     }
 
     public String getRelationName() {
@@ -29,23 +26,19 @@ public class Relation {
         this.relationName = relationName;
     }
 
-    public int getOffset() {
-        return offset;
+    public int getOffset1() {
+        return offset1;
     }
 
-    public void setOffset(int offset) {
-        this.offset = offset;
+    public void setOffset1(int offset1) {
+        this.offset1 = offset1;
     }
 
-    public boolean isType() {
-        return type;
+    public int getOffset2() {
+        return offset2;
     }
 
-    public void setType(boolean type) {
-        this.type = type;
+    public void setOffset2(int offset2) {
+        this.offset2 = offset2;
     }
-
-
-
-
 }
