@@ -9,17 +9,33 @@ import org.apache.pdfbox.text.PDFTextStripper;
 public class PdfDocumentStrategy implements IDocumentStrategy {
     @Override
     public String clean(String path) {
+        // TODO implement processing of PDF files and return the resulted string
+        //Loading an existing document
+        PDDocument document = null;
+        String text = null;
+        try {
 
-        File file = new File(path);
-        PDDocument document = PDDocument.load(file);
+            File file = new File(path);
+            document = PDDocument.load(file);
 
-        PDFTextStripper pdfStripper = new PDFTextStripper();
+            //Instantiate PDFTextStripper class
+            PDFTextStripper pdfStripper = new PDFTextStripper();
 
-        String text = pdfStripper.getText(document);
+            //Retrieving text from PDF document
+            text = pdfStripper.getText(document);
+        } catch (IOException e) {
+            //do smth
+        } finally {
+            try {
+                if (document != null)
+                    //Closing the document
+                    document.close();
+            } catch (IOException e) {
+                //do smth
+            }
 
-        document.close();
-
-        return text;
+            return text;
+        }
     }
     
      public static void main(String[] args) {
