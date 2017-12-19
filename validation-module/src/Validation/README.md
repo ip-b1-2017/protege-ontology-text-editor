@@ -1,14 +1,15 @@
 **Validation**
 
-Team members:
-1. Bogatu Ion
-2. Chmilevski Monica
-3. Coroș Ștefan
-4. Gălățanu Andrei
-5. Grigore Marius
-6. Ivașcu Gabriela
-7. Mazilu Florin
-8. Rîșcanu Andrei
+Team members          | Github Username
+
+1. Bogatu Ion         | ionbogatu
+2. Chmilevski Monica  | mchmilevski
+3. Coroș Ștefan       | 
+4. Gălățanu Andrei    | galatanu95
+5. Grigore Marius     | griggson
+6. Ivașcu Gabriela    | gabrielaivascu
+7. Mazilu Florin      | maziluflorin84
+8. Rîșcanu Andrei     | osiriszeusra
 
 [ASSIGNED TASKS](https://docs.google.com/spreadsheets/d/101vOgeR3xXB2KoanKcJ7FK3xiMBlPWI2iqYFdDP_xeU/edit?usp=sharing)
 
