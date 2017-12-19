@@ -29,6 +29,9 @@ public class Document {
                     case "DOCX":
                         type = DocumentEnum.DOCX;
                         break;
+                    case "TXT":
+                        type = DocumentEnum.TXT;
+                        break;
                 }
             }
         }
