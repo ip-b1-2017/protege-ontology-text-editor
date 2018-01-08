@@ -28,7 +28,7 @@ public class ParserTests {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology localPizza = manager.loadOntologyFromOntologyDocument(file);
         System.out.println("Loaded ontology: " + localPizza);
-
+/*
         System.out.println(localPizza.getFormat());
         System.out.println(localPizza.components());
         Stream components = localPizza.components();
@@ -51,6 +51,7 @@ public class ParserTests {
             System.out.println("toString " + obj.toString());
         }
 
+*/
         OntModel m = ModelFactory.createOntologyModel( OntModelSpec.OWL_MEM );
 
     }
