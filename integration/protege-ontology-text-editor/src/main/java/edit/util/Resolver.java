@@ -23,15 +23,15 @@ public class Resolver {
             return true;
         }
 
-        //OWLAnnotationProperty label = workspace.getOWLModelManager().
-          //      getOWLDataFactory().getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI());
+        OWLAnnotationProperty label = workspace.getOWLModelManager().
+                getOWLDataFactory().getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI());
 
-        /*for (OWLAnnotation annotation : entity.getAnnotations(ontology)){
+        for (OWLAnnotation annotation : entity.getAnnotations(ontology)){
             if (annotation.getValue() instanceof OWLLiteral &&
                     ((OWLLiteral) annotation.getValue()).getLiteral().equals(name)){
                 return true;
             }
-        }*/
+        }
 
         return false;
     }

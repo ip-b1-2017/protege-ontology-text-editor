@@ -59,7 +59,7 @@ public class Api {
         Set<OWLOntology> onts = new HashSet<>();
         onts.add(ontology);
 
-        OWLEntityRemover remover = new OWLEntityRemover(onts);
+        OWLEntityRemover remover = new OWLEntityRemover(manager, onts);
 
         entity.accept(remover);
 
