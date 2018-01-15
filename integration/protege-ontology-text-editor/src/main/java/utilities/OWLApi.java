@@ -1,6 +1,7 @@
 package utilities;
 
 import edit.edit.ApiValueException;
+import validation.src.WordLemaTuple;
 import view.DTO.Word;
 import view.Parser;
 import view.ViewAPI;
@@ -21,7 +22,7 @@ public class OWLApi {
 
     private static Api editApi;
     private static OWLOntology ontology;
-    private static List<LemaWord> text = null;
+    private static List<WordLemaTuple> text = null;
     private static List<Word> viewText = new ArrayList<>();
 
     public static void initializeEditApi(OWLWorkspace workspace){
@@ -33,7 +34,7 @@ public class OWLApi {
         ontology = currentOnto;
     }
 
-    public static void setText(List<LemaWord> t){
+    public static void setText(List<WordLemaTuple> t){
         if(text != null)
             return;
         text = t;
