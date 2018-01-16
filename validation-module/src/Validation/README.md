@@ -21,18 +21,3 @@ After we consulted with the team we brought it down to 5 steps:
 3. Calling the WebPosRo tool (http://nlptools.info.uaic.ro/WebPosRo) with the text processed above that will return an XML file that will split the text by words and will give us information about each of it (if it in Romanian and is correctly written), including the word as it appears in dictionary (what we will use).
 4. XML processing and creation of a list of tuples with to string elements: the word as it appears in text and the word as it appears in dictionary (returned by WebPosRo tool).
 5. Creating the API methods that can be called by the other modules.
-
-[WORK DONE ASIDE WRITING CODE]
-- Florin Mazilu
-    - Research
-        - PDF
-            - https://stackoverflow.com/questions/18098400/how-to-get-raw-text-from-pdf-file-using-java
-            - https://pdfbox.apache.org/
-        - DOCX
-            - https://www.tutorialspoint.com/apache_poi_word/apache_poi_word_text_extraction.htm
-        - HTML
-            - https://jsoup.org/
-    - Coding
-        - Method for processing TXT files
-        - Method for calling web service (which was made by Coroș Ștefan and Bogatu Ion), by uploading the HTML file and processing the returned text
-        - Method for changing characters with cedilla, to the ones with comma
