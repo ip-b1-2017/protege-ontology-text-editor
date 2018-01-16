@@ -1,16 +1,17 @@
-package com.fii.ai.view;
+package view;
 
-import org.apache.jena.ontology.OntModel;
-import org.apache.jena.ontology.OntModelSpec;
-import org.apache.jena.rdf.model.ModelFactory;
+
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import uk.ac.manchester.cs.owl.owlapi.OWLObjectPropertyDomainAxiomImpl;
 
 import java.io.File;
-
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 
 public class ParserTests {
@@ -49,7 +50,7 @@ public class ParserTests {
         }
 
 */
-        OntModel m = ModelFactory.createOntologyModel( OntModelSpec.OWL_MEM );
+
 
     }
 

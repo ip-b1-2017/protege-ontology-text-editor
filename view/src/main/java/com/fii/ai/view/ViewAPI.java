@@ -1,16 +1,13 @@
 package com.fii.ai.view;
 
-import com.fii.ai.view.DTO.OntologyRelation;
 import com.fii.ai.view.DTO.Relation;
 import com.fii.ai.view.DTO.Word;
-
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
