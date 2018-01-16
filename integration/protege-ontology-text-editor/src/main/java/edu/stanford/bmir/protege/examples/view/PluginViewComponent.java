@@ -3,13 +3,17 @@ package edu.stanford.bmir.protege.examples.view;
 import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.List;
 
+import edit.edit.ApiValueException;
+import edit.util.ResolverException;
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import temp.Mocker;
 import temp.Relation;
 import utilities.*;
+import validation.src.InformationProcessor;
+import validation.src.WordLemaTuple;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -20,6 +24,12 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
 
     Filter filter = new Filter();
     JPanel flowPane = new JPanel();
+    private List<WordLemaTuple> words = null;
+    boolean loaded = false;
+    JPanel gridPane;
+    JTextArea textPane;
+    JScrollPane scrollPane;
+    JScrollPane textScroll;
 
     @Override
     protected void initialiseOWLView() throws Exception {
@@ -30,38 +40,52 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
         flowPane.setLayout(new WrapLayout(FlowLayout.LEADING));
         flowPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
-        JPanel gridPane = new JPanel();
-        gridPane.setLayout(new GridLayout(2,4));
+        gridPane = new JPanel();
+        gridPane.setLayout(new GridLayout(2, 4));
 
 
-        JTextArea textPane = new JTextArea();
+        textPane = new JTextArea();
         textPane.setLineWrap(true);
         textPane.setEditable(false);
 
-        initialiseMenuButtons(gridPane,textPane);
+        initialiseMenuButtons(gridPane, textPane);
 
-        JScrollPane scrollPane = new JScrollPane(flowPane);
+        scrollPane = new JScrollPane(flowPane);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setLayout(new ScrollPaneLayout());
 
-        JScrollPane textScroll = new JScrollPane(textPane);
+        textScroll = new JScrollPane(textPane);
         textScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         textScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         textScroll.setLayout(new ScrollPaneLayout());
 
-        Mocker mocker = new Mocker();
-
-        for (int i=0; i<mocker.words.size();i++){
-            LocalDatabase.wordButtons.add(new WordButton(mocker.words.get(i).getWord()));
 
 
+
+        JSplitPane splitPaneVertical = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPane, textScroll);
+        splitPaneVertical.setDividerLocation(650);
+        JSplitPane splitPaneHorizontal = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPaneVertical, gridPane);
+        splitPaneHorizontal.setPreferredSize(new
+
+                Dimension(800, 600));
+        splitPaneHorizontal.setOneTouchExpandable(true);
+        splitPaneHorizontal.setDividerLocation(500);
+
+        add(splitPaneHorizontal);
+        log.info("Example View Component initialized");
+    }
+
+    private void addWordsToPane(){
+        for (int i = 0; i < words.size(); i++) {
+            LocalDatabase.wordButtons.add(new WordButton(words.get(i).getWord()));
             LocalDatabase.wordButtons.get(i).addActionListener(e -> {
-                try{
+                try {
                     if (filter.canAddRelation()) {
+                        LocalDatabase.addRelationClicked = false;
                         filter.setSecondOffset(e);
                         String input = JOptionPane.showInputDialog("What relation between *" + LocalDatabase.wordButtons.get(LocalDatabase.currOffset).getText() + "*  and  *" + ((JButton) e.getSource()).getText() + "* \nwould you like to add?");
-                        filter.addRelation(input);
+                        OWLApi.addRelation(LocalDatabase.currOffset,LocalDatabase.secondOffset, input);
                     } else if (filter.canRemoveRelation()) {
                         filter.setSecondOffset(e);
                         int input = JOptionPane.showConfirmDialog(
@@ -70,31 +94,46 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
                                 "Confirm action",
                                 JOptionPane.YES_NO_OPTION);
                         if (input == 0) {
-                            filter.removeRelation(mocker);
+                            filter.removeRelation();
                         }
                         LocalDatabase.removeRelationClicked = false;
                     } else {
                         filter.setCurrOffset(e);
+                        List<Relation> relations = OWLApi.getRelationsOfWord(LocalDatabase.currOffset);
+                        System.out.println("RELATION >>>>>>>>>> " + relations);
                         JButton currButt = filter.getCurrButton();
                         textPane.setText(currButt.getText());
                         filter.clearWords();
                         currButt.setBackground(Color.GREEN);
                         currButt.setOpaque(true);
                         filter.refreshPane(flowPane);
-                        for (int j = 0; j < LocalDatabase.wordButtons.size(); j++) {
-                            Relation rel = mocker.hasRelation(LocalDatabase.currOffset, j);
-                            if (rel != null) {
-                                LocalDatabase.wordButtons.get(j).setBackground(Color.GREEN);
-                                LocalDatabase.wordButtons.get(j).setOpaque(true);
-                                textPane.append(currButt.getText() + " " + rel.relation + " " + LocalDatabase.wordButtons.get(rel.offset2).getText() + ".\n");
+
+                        for (Relation relation : relations){
+                            if(relation.getOffset1() != LocalDatabase.currOffset){
+                                LocalDatabase.wordButtons.get(relation.getOffset1()).setBackground(Color.GREEN);
+                                LocalDatabase.wordButtons.get(relation.getOffset1()).setOpaque(true);
                             }
+                            else {
+                                LocalDatabase.wordButtons.get(relation.getOffset2()).setBackground(Color.GREEN);
+                                LocalDatabase.wordButtons.get(relation.getOffset2()).setOpaque(true);
+                            }
+                            //textPane.append(currButt.getText() + " " + rel.relation + " " + LocalDatabase.wordButtons.get(rel.offset2).getText() + ".\n");
                         }
+
+//                        for (int j = 0; j < LocalDatabase.wordButtons.size(); j++) {
+//                            Relation rel = filter.hasRelation(LocalDatabase.currOffset, j);
+//                            if (rel != null) {
+//                                LocalDatabase.wordButtons.get(j).setBackground(Color.GREEN);
+//                                LocalDatabase.wordButtons.get(j).setOpaque(true);
+//
+//                            }
+//                        }
                     }
                     filter.refreshPane(flowPane);
-                }
-                catch (Exception ex){
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                     JOptionPane.showMessageDialog(flowPane,
-                            ex.getMessage(),
+                            "" + ex.getMessage(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
                 }
@@ -102,21 +141,12 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
             flowPane.add(LocalDatabase.wordButtons.get(i));
         }
 
-
-        JSplitPane splitPaneVertical = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPane, textScroll);
-        splitPaneVertical.setDividerLocation(650);
-        JSplitPane splitPaneHorizontal = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPaneVertical, gridPane);
-        splitPaneHorizontal.setPreferredSize(new Dimension(800, 600));
-        splitPaneHorizontal.setOneTouchExpandable(true);
-        splitPaneHorizontal.setDividerLocation(500);
-        add(splitPaneHorizontal);
-        log.info("Example View Component initialized");
     }
 
     private void initialiseMenuButtons(JPanel gridPane, JTextArea textArea) {
         JButton addRelation = new JButton("Add relation");
         addRelation.setBackground(Color.GREEN);
-        addRelation.addActionListener( e -> LocalDatabase.addRelationClicked = true);
+        addRelation.addActionListener(e -> LocalDatabase.addRelationClicked = true);
 
 
         JButton removeRelation = new JButton("Remove relation");
@@ -124,24 +154,31 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
         removeRelation.addActionListener(e -> LocalDatabase.removeRelationClicked = true);
 
 
-
         JButton conceptMarking = new JButton("Unmark/Mark as concept");
         conceptMarking.setBackground(Color.RED);
         conceptMarking.addActionListener(e -> {
             WordButton currBut = LocalDatabase.wordButtons.get(LocalDatabase.currOffset);
-            if (!LocalDatabase.conceptOffset.contains(LocalDatabase.currOffset)) {
+            if (!OWLApi.isConcept(LocalDatabase.currOffset)) {
                 textArea.setText(currBut.getText() + " was marked as concept.\n");
                 currBut.setBackground(Color.RED);
                 filter.addConcept();
 
-            } else if (LocalDatabase.conceptOffset.contains(LocalDatabase.currOffset)) {
+            } else if (OWLApi.isConcept(LocalDatabase.currOffset)) {
+                try {
+                    OWLApi.removeConcept(LocalDatabase.currOffset);
+                } catch (ApiValueException | ResolverException e1) {
+                    e1.printStackTrace();
+                    JOptionPane.showMessageDialog(flowPane,
+                            "" + e1.getMessage(),
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
                 textArea.setText(currBut.getText() + " is a concept no more.\n");
                 currBut.setOpaque(false);
                 filter.removeConcept();
             }
             filter.refreshPane(flowPane);
         });
-
 
 
         JButton seeConcepts = new JButton("See all concepts");
@@ -154,7 +191,7 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
                 b.setOpaque(false);
                 b.setContentAreaFilled(false);
                 b.setBorderPainted(false);
-                if (LocalDatabase.conceptOffset.contains(i)) {
+                if (OWLApi.isConcept(i)) {
                     textArea.append(b.getText() + " is a Concept" + '\n');
                     b.setBackground(Color.RED);
                     b.setOpaque(true);
@@ -171,11 +208,24 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
         fileChooser.setAcceptAllFileFilterUsed(false);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF and TXT texts", "pdf", "txt");
         fileChooser.addChoosableFileFilter(filter);
-        load.addActionListener(e->{
+        load.addActionListener(e -> {
             int result = fileChooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
                 System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+                InformationProcessor informationProcessor = new InformationProcessor(selectedFile.getAbsolutePath());
+                try {
+                    words = informationProcessor.getWordLemaTuples();
+                    System.out.println(words);
+
+                    OWLApi.setText(words);
+
+                    addWordsToPane();
+                    this.filter.refreshPane(flowPane);
+
+                } catch (Exception e1) {
+                    System.out.println(e1);
+                }
             }
         });
 
@@ -187,12 +237,12 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
         chooser.setAcceptAllFileFilterUsed(false);
-        FileNameExtensionFilter filterSave = new FileNameExtensionFilter("Text(*.txt)",  "txt");
+        FileNameExtensionFilter filterSave = new FileNameExtensionFilter("Text(*.txt)", "txt");
         chooser.addChoosableFileFilter(filterSave);
-        save.addActionListener(e->{
+        save.addActionListener(e -> {
             int retrival = chooser.showSaveDialog(null);
             if (retrival == JFileChooser.APPROVE_OPTION) {
-                try(FileWriter fw = new FileWriter(chooser.getSelectedFile()+".txt")) {
+                try (FileWriter fw = new FileWriter(chooser.getSelectedFile() + ".txt")) {
                     fw.write(sb.toString());
                     fw.close();
                 } catch (Exception ex) {
@@ -208,6 +258,7 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
         gridPane.add(seeConcepts);
         gridPane.add(save);
     }
+
 
 
 

@@ -1,10 +1,10 @@
 package utilities;
 
-import temp.Mocker;
 import temp.Relation;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.util.Objects;
 
 /**
  * Created by giosa on 18-Dec-17.
@@ -52,6 +52,15 @@ public class Filter {
         panel.repaint();
     }
 
+    public Relation hasRelation(Integer offset1, Integer offset2){
+        for ( Relation i : LocalDatabase.relations  ) {
+            if(Objects.equals(i.offset1, offset1) && Objects.equals(i.offset2, offset2)){
+                return  i;
+            }
+        }
+        return null;
+    }
+
     public void addConcept(){
         LocalDatabase.conceptOffset.add(LocalDatabase.currOffset);
     }
@@ -60,8 +69,8 @@ public class Filter {
         LocalDatabase.conceptOffset.remove(LocalDatabase.currOffset);
     }
 
-    public void removeRelation(Mocker mocker) {
-        LocalDatabase.relations.remove(mocker.hasRelation(LocalDatabase.currOffset,LocalDatabase.secondOffset));
+    public void removeRelation() {
+        LocalDatabase.relations.remove(this.hasRelation(LocalDatabase.currOffset,LocalDatabase.secondOffset));
         LocalDatabase.wordButtons.get(LocalDatabase.secondOffset).setOpaque(false);
     }
 }

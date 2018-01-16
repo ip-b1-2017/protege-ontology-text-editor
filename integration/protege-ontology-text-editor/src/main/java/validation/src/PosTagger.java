@@ -1,7 +1,4 @@
 package validation.src;
-
-import org.apache.pdfbox.io.IOUtils;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
@@ -58,10 +55,16 @@ public class PosTagger {
             }
 
             DataInputStream input = new DataInputStream(con.getInputStream());
+            int count = input.available();
+            byte[] bytes = new byte[count];
 
-            byte[] bytes = IOUtils.toByteArray(input);
+            StringBuilder builder = new StringBuilder();
+            while(input.read(bytes) > 0) {
+                builder.append(new String(bytes));
+            }
 
-            return new String(bytes);
+            return builder.toString();
+
         } catch(java.io.IOException ex) {
             System.out.println("Error occurred while trying to POST to WebPosRo tool.");
             return null;

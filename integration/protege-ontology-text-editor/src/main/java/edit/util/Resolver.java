@@ -49,14 +49,18 @@ public class Resolver {
     }
 
     public OWLEntity resolveEntity(String name) throws ResolverException {
+
+
         for (OWLOntology ontology: getOntologies()) {
             for (OWLClass owlClass : ontology.getClassesInSignature()) {
+                System.out.println(owlClass);
                 if (isEntityMatch(ontology, owlClass, name)) {
                     return owlClass;
                 }
             }
 
             for (OWLNamedIndividual individual : ontology.getIndividualsInSignature()) {
+                System.out.println(individual);
                 if (isEntityMatch(ontology, individual, name)){
                     return individual;
                 }

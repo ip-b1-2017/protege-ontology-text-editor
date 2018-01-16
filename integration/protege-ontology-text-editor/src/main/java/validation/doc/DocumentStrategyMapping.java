@@ -6,9 +6,9 @@ public class DocumentStrategyMapping {
     private HashMap<DocumentEnum, IDocumentStrategy> documentMap = new HashMap<>();
 
     DocumentStrategyMapping() {
-        documentMap.put(DocumentEnum.PDF, new PdfDocumentStrategy());
-        documentMap.put(DocumentEnum.DOCX, new DocxDocumentStrategy());
-        documentMap.put(DocumentEnum.HTML, new HtmlDocumentStrategy());
+//        documentMap.put(DocumentEnum.PDF, new PdfDocumentStrategy());
+//        documentMap.put(DocumentEnum.DOCX, new DocxDocumentStrategy());
+//        documentMap.put(DocumentEnum.HTML, new HtmlDocumentStrategy());
         documentMap.put(DocumentEnum.TXT, new TxtDocumentStrategy());
     }
 
