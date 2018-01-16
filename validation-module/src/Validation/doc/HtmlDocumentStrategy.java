@@ -59,6 +59,10 @@ public class HtmlDocumentStrategy implements IDocumentStrategy {
             String[] responseString2 = responseString1.split("message\":\"");
             responseString = removeUTFCharacters(responseString2[1].substring(0, responseString2[1].length() - 2)).toString();
 
+            responseString = responseString.replaceAll("(?:\\u00c5\\u009e|\\u00c8\\u0098)", "Ș");
+            responseString = responseString.replaceAll("(?:\\u00c5\\u009f|\\u00c8\\u0099)", "ș");
+            responseString = responseString.replaceAll("(?:\\u00c5\\u00a2|\\u00c8\\u009a)", "Ț");
+            responseString = responseString.replaceAll("(?:\\u00c5\\u00a3|\\u00c8\\u009b)", "ț");
 
         } catch (ClientProtocolException e) {
             System.err.println("Unable to make connection");

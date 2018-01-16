@@ -34,6 +34,7 @@ public class PluginViewComponent extends AbstractOWLViewComponent {
     @Override
     protected void initialiseOWLView() throws Exception {
         OWLApi.initializeEditApi(this.getOWLWorkspace());
+		OWLApi.setOntology(this.getOWLModelManager().getActiveOntology());
         setLayout(new BorderLayout());
 
         flowPane.setBackground(Color.white);
