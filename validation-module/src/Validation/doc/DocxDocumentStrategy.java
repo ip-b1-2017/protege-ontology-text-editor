@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.*;
+import java.util.regex.*;
 
 public class DocxDocumentStrategy implements IDocumentStrategy {
     @Override
@@ -20,7 +21,6 @@ public class DocxDocumentStrategy implements IDocumentStrategy {
         String theText = null;
         String surfix;
         surfix = path.substring(path.indexOf('.') + 1);
-        //File file = new File(path);
         try {
 
             File file = new File(path);
@@ -45,12 +45,18 @@ public class DocxDocumentStrategy implements IDocumentStrategy {
                 System.err.println("Invalid file type. This is for doc and docx files");
                 System.exit(0);
             }
-            return theText;
+
         } catch (Exception e) {
-            //e.printStackTrace();
+
             System.out.println("Eroare : " + e.toString());
-        }
-        return theText;
+
+        }finally {
+
+            theText = theText.replaceAll("\\d","");
+            return theText.replaceAll("[^ăîâșşțţĂÎÂȘȚŞŢ\\w]+", " ");
+
+            }
+
     }
 }
 
