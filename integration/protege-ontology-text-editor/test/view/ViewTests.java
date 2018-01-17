@@ -1,5 +1,6 @@
 package view;
 
+import org.semanticweb.owlapi.model.AxiomType;
 import view.DTO.Word;
 import org.junit.Rule;
 import org.junit.Test;
@@ -44,6 +45,24 @@ public class ViewTests {
             e.printStackTrace();
             throw e;
         }
+    }
+    @Test
+    public void test3(){
+        File file = new File("tmp/pizza.owl");
+        // Now load the local copy
+        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+        OWLOntology localPizza = null;
+        try {
+            localPizza = manager.loadOntologyFromOntologyDocument(file);
+        } catch (OWLOntologyCreationException e) {
+            e.printStackTrace();
+        }
+        System.out.println(localPizza.getAxiomCount());
+        for( int i =0 ; i<localPizza.getAxiomCount();++i){
+
+
+        }
+        System.out.println( localPizza.getAxioms(AxiomType.OBJECT_PROPERTY_RANGE));
     }
 }
 

@@ -36,9 +36,10 @@ public class View {
 
                     OWLClassExpression intersection = df.getOWLObjectIntersectionOf(class1, df.getOWLObjectComplementOf(restriction));
                     if (!reasoner.isSatisfiable(intersection))
+
                         System.out.println("Instaances of" + class1 + " have " + prop);
-                    // System.out.println(restriction+ " " + df.getOWLObjectComplementOf(restriction));
-                    //System.out.println(restriction +  " "+ df.getOWLObjectComplementOf(restriction).getOperand());
+                       System.out.println(restriction+ " " + df.getOWLObjectComplementOf(restriction));
+                        System.out.println(restriction +  " "+ df.getOWLObjectComplementOf(restriction).getOperand());
                 }
 
         }
