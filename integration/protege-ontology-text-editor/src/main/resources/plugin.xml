@@ -6,7 +6,7 @@
 	<!-- Tabs -->
 
 	<extension id="ExampleWorkspaceTab" point="org.protege.editor.core.application.WorkspaceTab">
-		<label value="B1 Protege Plugin"/>
+		<label value="Protege Ontology Text Editor"/>
 		<class value="org.protege.editor.owl.ui.OWLWorkspaceViewsTab"/>
 		<index value="X"/>
 		<editorKitId value="OWLEditorKit"/>
