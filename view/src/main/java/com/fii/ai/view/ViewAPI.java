@@ -3,6 +3,7 @@ package com.fii.ai.view;
 import com.fii.ai.view.DTO.Relation;
 import com.fii.ai.view.DTO.Word;
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -32,7 +33,7 @@ public class ViewAPI {
         }
         IRI iri = IRI.create("/tmp");
         manager.loadOntology(iri);
-        view.setWords(words);
-        return view.getRelations(word,owlOntology);
+      //  view.setWords(words);
+        return view.getRelations(word,owlOntology,words);
     }
 }

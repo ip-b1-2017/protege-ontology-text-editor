@@ -32,6 +32,15 @@ public class OntologyRelation {
         this.endClass = endClass;
     }
 
+    @Override
+    public String toString() {
+        return "OntologyRelation{" +
+                "startClass='" + startClass + '\'' +
+                ", property='" + property + '\'' +
+                ", endClass='" + endClass + '\'' +
+                '}';
+    }
+
     public OntologyRelation(String startClass, String property, String endClass) {
         this.startClass = startClass;
         this.property = property;
