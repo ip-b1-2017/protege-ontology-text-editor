@@ -7,7 +7,7 @@
 	<version>2.0.0-SNAPSHOT</version>
 	<packaging>bundle</packaging>
 
-	<name>B1 Protege Plugin</name>
+	<name>Protege Ontology Text Editor</name>
 	<description>A plugin made to do what it was supposed to do. </description>
 	
 	<properties>

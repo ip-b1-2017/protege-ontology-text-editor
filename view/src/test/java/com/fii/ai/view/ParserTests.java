@@ -15,7 +15,16 @@ import java.io.File;
 
 public class ParserTests {
 
-
+   @Test
+    public void checkConceptTest() throws OWLOntologyCreationException {
+        String concept = "American";
+        Parser p = new Parser();
+        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+//        IRI iri = IRI.create("tmp/pizza.owl");
+        File file = new File("tmp/pizza.owl");
+        OWLOntology owlOntology = manager.loadOntologyFromOntologyDocument(file);
+        System.out.println(p.checkConcept(concept,owlOntology));
+    }
 
     @Test
     public void parserTest() throws OWLOntologyCreationException {
