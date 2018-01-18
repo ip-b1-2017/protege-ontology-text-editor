@@ -40,11 +40,11 @@ public class View {
 
                     OWLClassExpression intersection = df.getOWLObjectIntersectionOf(class1, df.getOWLObjectComplementOf(restriction));
                     if (!reasoner.isSatisfiable(intersection))
-                        System.out.println("property" + prop);
-                    System.out.println("property name" + prop.getNamedProperty());
-                    System.out.println("inverse property" + prop.getInverseProperty());
+                       // System.out.println("property" + prop);
+                   // System.out.println("property name" + prop.getNamedProperty());
+                  //  System.out.println("inverse property" + prop.getInverseProperty());
 
-                    System.out.println("Instaances of" + class1 + " have " + prop);
+                  //  System.out.println("Instaances of" + class1 + " have " + prop);
                     // System.out.println(restriction+ " " + df.getOWLObjectComplementOf(restriction));
                     //System.out.println(restriction +  " "+ df.getOWLObjectComplementOf(restriction).getOperand());
                 }
@@ -67,22 +67,22 @@ public class View {
             List<Integer> offsets;
 
             if(ontologyRelations.get(i).getStartClass().toLowerCase().equals(str)){
-                System.out.println(ontologyRelations.get(i).getStartClass());
-                System.out.println(ontologyRelations.get(i).getEndClass());
+              //  System.out.println(ontologyRelations.get(i).getStartClass());
+               // System.out.println(ontologyRelations.get(i).getEndClass());
 
                 offsets = getOffsetIfExists(words, ontologyRelations.get(i).getEndClass());
 
                     for(int j = 0; j < offsets.size(); ++j){
-                        System.out.println(offsets);
+                      // System.out.println(offsets);
                         Relation relation = new Relation(ontologyRelations.get(i).getProperty(), word.getOffset(), offsets.get(j));
                         relations.add(relation);
                     }
 
             } else {
 
-                System.out.println(ontologyRelations.get(i).getStartClass());
+              //  System.out.println(ontologyRelations.get(i).getStartClass());
                 offsets = getOffsetIfExists(words, ontologyRelations.get(i).getStartClass());
-                System.out.println(offsets);
+             //   System.out.println(offsets);
                 for(int j = 0; j < offsets.size();++j){
                     Relation relation = new Relation(ontologyRelations.get(i).getProperty(),  offsets.get(j), word.getOffset());
                     relations.add(relation);
@@ -97,7 +97,7 @@ public class View {
 
     List<Integer> getOffsetIfExists(List<Word> words, String word){
 
-        System.out.println(words);
+      //  System.out.println(words);
         List<Integer> response = new ArrayList<>();
         for(int i = 0; i<words.size();++i){
             if(word.toLowerCase().equals(words.get(i).getNormalizeForm().toLowerCase())){
@@ -110,6 +110,7 @@ public class View {
     List<OntologyRelation> getAllRelatedStrings(String str, OWLOntology ontology) {
         List<OntologyRelation> response = new ArrayList<>();
         List<OWLAxiom> axioms = new ArrayList<>(ontology.getAxioms());
+
         for (int axiomIndex = 0; axiomIndex < ontology.getAxiomCount(); ++axiomIndex) {
 
 
@@ -127,7 +128,6 @@ public class View {
                         relation.setStartClass(tagValues.get(0));
                         relation.setProperty(tagValues.get(1));
                         relation.setEndClass(tagValues.get(j));
-                        System.out.println(relation);
                         response.add(relation);
                     }
 
@@ -139,7 +139,7 @@ public class View {
                         relation.setProperty(tagValues.get(1));
                         relation.setEndClass(tagValues.get(relationIndex));
                         response.add(relation);
-                        System.out.println(relation);
+
                     }
                 }
             }
