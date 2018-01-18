@@ -20,12 +20,15 @@ public class Parser {
 
 
     public boolean checkConcept(String x, OWLOntology ontology) {
+        if(!x.endsWith(">")){
+            x=x+">";
+        }
         Set<OWLClass> concepts = new LinkedHashSet<OWLClass>();
         for(OWLClass cls : ontology.getClassesInSignature()) {
             concepts.add(cls);
         }
         for(OWLClass concept : concepts) {
-            if((concept.toString().toLowerCase()).endsWith(x)) {
+            if((concept.toString().toLowerCase()).endsWith(x.toLowerCase())) {
                 return true;
             }
         }
