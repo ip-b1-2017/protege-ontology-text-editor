@@ -15,12 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewAPI {
-    public static List<Relation> getRelations(Word word, OWLOntology owlOntology, ArrayList<Word> words) throws FailedToLoadOntologyException {
-        //Load the ontology
-        File file = new File("tmp/pizza.owl");
+   public static List<Relation> getRelations(Word word, OWLOntology owlOntology, ArrayList<Word> words) throws FailedToLoadOntologyException, OWLOntologyCreationException {
+
+        View view = new View();
         //TODO LOAD Ontology from Protege
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         if(owlOntology == null){
+            File file = new File("tmp/pizza.owl");
             try {
                 owlOntology = manager.loadOntologyFromOntologyDocument(file);
                 System.out.println("Loaded ontology: " + owlOntology);
@@ -28,9 +29,13 @@ public class ViewAPI {
                 throw new FailedToLoadOntologyException("Failed to load the ontology");
             }
         }
-        View view = new View();
-        view.setWords(words);
         // TODO: Comply wih GUI format
+        else{
+                manager = owlOntology.getOWLOntologyManager();
+        }
+        IRI iri = IRI.create("/tmp");
+        manager.loadOntology(iri);
+        view.setWords(words);
         return view.getRelations(word,owlOntology);
     }
 }
