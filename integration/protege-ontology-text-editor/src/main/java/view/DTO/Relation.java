@@ -41,4 +41,13 @@ public class Relation {
     public void setOffset2(int offset2) {
         this.offset2 = offset2;
     }
+
+    @Override
+    public String toString() {
+        return "Relation{" +
+                "relationName='" + relationName + '\'' +
+                ", offset1=" + offset1 +
+                ", offset2=" + offset2 +
+                '}';
+    }
 }

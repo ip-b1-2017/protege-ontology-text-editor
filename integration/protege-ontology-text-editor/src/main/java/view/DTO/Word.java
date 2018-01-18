@@ -8,6 +8,15 @@ public class Word {
     private  String textForm;
     private  int offset;
 
+    @Override
+    public String toString() {
+        return "Word{" +
+                "normalizeForm='" + normalizeForm + '\'' +
+                ", textForm='" + textForm + '\'' +
+                ", offset=" + offset +
+                '}';
+    }
+
     public String getNormalizeForm() {
         return normalizeForm;
     }

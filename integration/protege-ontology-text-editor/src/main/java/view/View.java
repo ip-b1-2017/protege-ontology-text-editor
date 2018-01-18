@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 public class View {
 
     private static final Pattern TAG_REGEX = Pattern.compile("#(.+?)>");
+
     public List<Relation> getRelations(Word word, OWLOntology ontology) {
         List<OntologyRelation> ontologyRelations;
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
@@ -58,55 +59,94 @@ public class View {
 
 
         List<Relation> relations = new ArrayList<>();
+
         String str = word.getNormalizeForm().toLowerCase();
-        List<OWLAxiom> axioms = new ArrayList<>(ontology.getAxioms());
-        for( int axiomIndex = 0; axiomIndex<ontology.getAxiomCount(); ++axiomIndex) {
 
+        List<OntologyRelation> ontologyRelations = getAllRelatedStrings(str,ontology);
+        for(int i = 0; i < ontologyRelations.size(); ++i) {
+            List<Integer> offsets;
 
-            final List<String> tagValues = new ArrayList<String>();
-            final Matcher matcher = TAG_REGEX.matcher(axioms.get(axiomIndex).toString());
+            if(ontologyRelations.get(i).getStartClass().toLowerCase().equals(str)){
+                System.out.println(ontologyRelations.get(i).getStartClass());
+                System.out.println(ontologyRelations.get(i).getEndClass());
 
-            while (matcher.find()) {
-                tagValues.add(matcher.group(1));
+                offsets = getOffsetIfExists(words, ontologyRelations.get(i).getEndClass());
 
-
-            }
-            if(tagValues.size()>1) {
-                for (int relationIndex = 0; relationIndex < tagValues.size(); ++relationIndex) {
-                    if (str.equals(tagValues.get(relationIndex))) {
-                        for(int i =0 ;i< tagValues.size(); ++i) {
-                            if(i!=relationIndex) {
-                                List<Integer>relatedOffsets = getOffsetIfExists(words,tagValues.get(i));
-                                if(relatedOffsets.size()>0) {
-                                    for(int j = 0; j< relatedOffsets.size(); ++j) {
-                                        Relation relation = new Relation();
-                                        relation.setOffset1(word.getOffset());
-                                        relation.setOffset2(relatedOffsets.get(j));
-                                        relation.setRelationName(axioms.get(axiomIndex).getAxiomType().toString());
-                                    }
-                                }
-                            }
-                        }
+                    for(int j = 0; j < offsets.size(); ++j){
+                        System.out.println(offsets);
+                        Relation relation = new Relation(ontologyRelations.get(i).getProperty(), word.getOffset(), offsets.get(j));
+                        relations.add(relation);
                     }
+
+            } else {
+
+                System.out.println(ontologyRelations.get(i).getStartClass());
+                offsets = getOffsetIfExists(words, ontologyRelations.get(i).getStartClass());
+                System.out.println(offsets);
+                for(int j = 0; j < offsets.size();++j){
+                    Relation relation = new Relation(ontologyRelations.get(i).getProperty(),  offsets.get(j), word.getOffset());
+                    relations.add(relation);
                 }
             }
 
-            System.out.println(tagValues);
-            tagValues.clear();
         }
 
         return relations;
     }
 
+
     List<Integer> getOffsetIfExists(List<Word> words, String word){
+
+        System.out.println(words);
         List<Integer> response = new ArrayList<>();
         for(int i = 0; i<words.size();++i){
             if(word.toLowerCase().equals(words.get(i).getNormalizeForm().toLowerCase())){
-                response.add(i);
+
+                response.add(words.get(i).getOffset());
             }
         }
         return response;
     }
+    List<OntologyRelation> getAllRelatedStrings(String str, OWLOntology ontology) {
+        List<OntologyRelation> response = new ArrayList<>();
+        List<OWLAxiom> axioms = new ArrayList<>(ontology.getAxioms());
+        for (int axiomIndex = 0; axiomIndex < ontology.getAxiomCount(); ++axiomIndex) {
+
+
+            final List<String> tagValues = new ArrayList<String>();
+            final Matcher matcher = TAG_REGEX.matcher(axioms.get(axiomIndex).toString());
+            while (matcher.find()) {
+                tagValues.add(matcher.group(1));
+            }
+            if (tagValues.size() > 3) {
+
+
+                if (str.equals(tagValues.get(0).toLowerCase()))
+                    for (int j = 2; j < tagValues.size(); ++j) {
+                        OntologyRelation relation = new OntologyRelation();
+                        relation.setStartClass(tagValues.get(0));
+                        relation.setProperty(tagValues.get(1));
+                        relation.setEndClass(tagValues.get(j));
+                        System.out.println(relation);
+                        response.add(relation);
+                    }
+
+            } else {
+                for (int relationIndex = 1; relationIndex < tagValues.size(); ++relationIndex) {
+                    if (str.equals(tagValues.get(relationIndex))) {
+                        OntologyRelation relation = new OntologyRelation();
+                        relation.setStartClass(tagValues.get(0));
+                        relation.setProperty(tagValues.get(1));
+                        relation.setEndClass(tagValues.get(relationIndex));
+                        response.add(relation);
+                        System.out.println(relation);
+                    }
+                }
+            }
+        }
+        return response;
+    }
+
 
 }
 
