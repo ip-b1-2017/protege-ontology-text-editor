@@ -31,21 +31,7 @@ public class ViewTests {
         view.getRelations(word, localPizza);
     }
 
-    @Test
-    public void test2(){
-        Word word1 = new Word("Americana","cea mai buna pizza",10);
-        Word word3 = new Word("America","USA",150);
-        View exemplu = new View();
-        try {
-            exemplu.add(word1);
-            exemplu.add(word3);
-            for(Word i:exemplu.getWords())
-                System.out.println(i.getNormalizeForm() +' ' + i.getTextForm() + ' '+ i.getOffset());
-        }catch (Exception e){
-            e.printStackTrace();
-            throw e;
-        }
-    }
+
     @Test
     public void test3(){
         File file = new File("tmp/pizza.owl");
@@ -63,6 +49,21 @@ public class ViewTests {
 
         }
         System.out.println( localPizza.getAxioms(AxiomType.OBJECT_PROPERTY_RANGE));
+    }
+    @Test
+    public void test4(){
+        File file = new File("tmp/pizza.owl");
+        // Now load the local copy
+        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+        OWLOntology localPizza = null;
+        try {
+            localPizza = manager.loadOntologyFromOntologyDocument(file);
+        } catch (OWLOntologyCreationException e) {
+            e.printStackTrace();
+        }
+        View view = new View();
+        Word word = new Word();
+
     }
 }
 
